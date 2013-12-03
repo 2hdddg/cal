@@ -1,0 +1,23 @@
+
+
+Schema
+    Has:
+        1       User, owning
+        0..*    Occurence(s)
+        0..1    Schema master
+    Can:
+        be exported as iCal
+        be shared as read-only
+        be shared as cloneable when it is the master
+
+Occurence
+    Has:
+        1       Start and end
+        1       Schema
+        0..1    Occurence master
+        0..1    Forum
+    Can:
+        have widgets like forum attached
+        
+
+
