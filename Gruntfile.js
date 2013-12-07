@@ -1,4 +1,3 @@
-var sys = require('sys');
 var exec = require('child_process').exec;
 
 module.exports = function(grunt){
@@ -26,4 +25,6 @@ module.exports = function(grunt){
 
     grunt.registerTask('test', ['mochacli']);
     grunt.registerTask('default', ['express']);
+
+    // sudo -u postgres psql
 };

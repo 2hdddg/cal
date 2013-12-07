@@ -1,5 +1,5 @@
-var assert = require("assert")
-var Series = require('../../../server/models/series');
+var assert = require("assert"),
+    Series = require('../../../server/db').models.Series;
 
 describe('Series model', function(){
     it('can be created', function(){
