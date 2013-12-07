@@ -1,5 +1,3 @@
-var exec = require('child_process').exec;
-
 module.exports = function(grunt){
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -17,13 +15,22 @@ module.exports = function(grunt){
             options: {
             },
             all: ['test/**/*.js']
+        },
+        env: {
+            dev: {
+                NODE_ENV: 'development',
+                CAL_DB_NAME: 'cal_test',
+                CAL_DB_USER: 'cal_test_user',
+                CAL_DB_PASS: 'cal_test_pass'
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-mocha-cli');
+    grunt.loadNpmTasks('grunt-env');
 
-    grunt.registerTask('test', ['mochacli']);
+    grunt.registerTask('test', ['env:dev', 'mochacli']);
     grunt.registerTask('default', ['express']);
 
     // sudo -u postgres psql
