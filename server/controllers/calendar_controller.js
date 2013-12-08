@@ -1,16 +1,17 @@
-var calendarQuery = require('../queries/calendar_query');
+var query = require('../queries/calendar_query');
+var to_JSON = require('../serializers/calendar_serializer').to_JSON;
 
 exports.get = function(req, res){
-    var calendarId = req.params.id;
+    var id = req.params.id;
 
-    calendarQuery.get_by_id(calendarId,
+    query.get_by_id(id,
         function(calendar){
             if (calendar){
-                res.write('Found it!');
+                res.write(JSON.stringify(to_JSON(calendar)));
                 res.end();
             }
             else{
-                res.write('Didnt find calender:' + calendarId);
+                res.write('Didnt find calender:' + id);
                 res.end();
             }
         },
