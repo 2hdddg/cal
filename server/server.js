@@ -3,8 +3,8 @@ var express = require('express');
 var app = express();
 
 // Bootstrapping
-require('./config/express_config')(app);
-require('./config/routes_config')(app);
+require('./express_boot')(app);
+require('./routes_boot')(app);
 
 var port = process.env.PORT || 6666;
 
