@@ -1,10 +1,9 @@
-var express = require('express');
-
-var app = express();
+var app = require('express')(),
+    db = require('./db');
 
 // Bootstrapping
 require('./express_boot')(app);
-require('./routes_boot')(app);
+require('./routes_boot')(app, db);
 
 var port = process.env.PORT || 6666;
 

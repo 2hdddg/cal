@@ -1,6 +1,8 @@
-// Controllers
-var series = require('./controllers/calendar_controller');
+module.exports = function(app, db){
+    // Controllers are initialized with db
+    var calendar = require('./controllers/calendar_controller')(db);
 
-module.exports = function(app){
-    app.get('/calendar/:id', series.get)
+    // Setup express routes for:
+    //   Calendar
+    app.get('/calendar/:id', calendar.get)
 };
