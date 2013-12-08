@@ -1,10 +1,10 @@
 
 
-Series
+Calendar
     Has:
         1       User, owning
         0..*    Occurence(s)
-        0..1    Series master
+        0..1    Calendar master
     Can:
         be exported as iCal
         be shared as read-only
@@ -13,7 +13,7 @@ Series
 Occasion
     Has:
         1       Start and end
-        1       Series
+        1       Calendar
         0..1    Occasion master
         0..1    Forum
     Can:

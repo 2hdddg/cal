@@ -1,7 +1,7 @@
 module.exports = function(sequelize, DataTypes){
-    var Series = sequelize.define('Series', {
+    var Calendar = sequelize.define('Calendar', {
         title: DataTypes.TEXT
     });
 
-    return Series;
+    return Calendar;
 };

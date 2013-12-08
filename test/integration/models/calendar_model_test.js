@@ -1,8 +1,8 @@
 var assert = require("assert"),
     db = require('../../../server/db'),
-    Series = db.models.Series;
+    Calendar = db.models.Calendar;
 
-describe('Series model', function(){
+describe('Calendar model', function(){
     before(function(done){
         db.sequelize.sync({force: true})
             .success(function(){
@@ -11,10 +11,10 @@ describe('Series model', function(){
     });
 
     it('can be created', function(done){
-        Series
+        Calendar
             .create({ title: 'a title'})
-            .success(function(series){
-                assert.ok(series.id > 0);
+            .success(function(created){
+                assert.ok(created.id > 0);
                 done();
             });
     })

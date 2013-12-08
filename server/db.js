@@ -1,4 +1,3 @@
-// Todo: rename to db instead ?
 var Sequelize = require('sequelize');
 
 var dbname = process.env['CAL_DB_NAME'],
@@ -13,16 +12,10 @@ var sequelize = new Sequelize(
     }
 );
 
-// load models
-// Todo: read directory contents instead
-var modelnames = [
-    'Series'
-];
-var models = {};
-modelnames.forEach(function(model) {
-    models[model] = sequelize.import(__dirname + '/models/' + model);
-});
+// Initialize model definitions
+var models = {
+    Calendar: sequelize.import(__dirname + '/models/calendar_model')
+};
 
 module.exports.sequelize = sequelize;
 module.exports.models = models;
-
