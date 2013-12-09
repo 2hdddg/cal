@@ -1,45 +1,6 @@
-var assert = require("assert");
-
-function db_fixture() {
-
-    return {
-        models: {
-            Calendar: {
-                find: sequelize_fixture()
-            }
-        }
-    }
-}
-
-function sequelize_fixture(){
-    var successCallback;
-    var failureCallback;
-    var mock = {
-        success: function(callback){
-            successCallback = callback;
-            return mock;
-        },
-        failure: function(callback){
-            failureCallback = callback;
-            return mock;
-        }
-    };
-
-    function find(id) {
-        return mock;
-    }
-
-    find.set_success = function(v){
-            successCallback(v);
-    };
-    find.set_failure = function(e){
-            failureCallback(e);
-    };
-    return find;
-}
-
-var db = db_fixture();
-var query = require('../../../server/queries/calendar_query')(db);
+var assert = require("assert"),
+    db = require('../db_fixture')(),
+    query = require('../../../server/queries/calendar_query')(db);
 
 describe('Calendar query,', function(){
     describe('get_by_id', function(){
@@ -49,6 +10,16 @@ describe('Calendar query,', function(){
                 done();
             });
             db.models.Calendar.find.set_success({});
+        });
+        it('calls error when calendar not found', function(done){
+            query.get_by_id(1, function(calendar){
+                assert.ok(false);
+                done();
+            }, function(error){
+                assert.ok(true);
+                done();
+            });
+            db.models.Calendar.find.set_success(null);
         });
     });
 });
