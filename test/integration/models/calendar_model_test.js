@@ -17,5 +17,5 @@ describe('Calendar model', function(){
                 assert.ok(created.id > 0);
                 done();
             });
-    })
-})
+    });
+});
