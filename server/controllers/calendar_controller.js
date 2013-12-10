@@ -16,7 +16,12 @@ module.exports = function(db){
             });
     }
 
+    function create(req, res){
+        res.end();
+    }
+
     return {
-        get: get
+        get: get,
+        create: create,
     };
 };
