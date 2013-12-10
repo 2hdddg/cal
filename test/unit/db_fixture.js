@@ -1,42 +1,66 @@
 function db_fixture() {
-
     return {
         models: {
-            Calendar: {
-                find: sequelize_fixture()
-            }
+            Calendar: mock_model()
         }
-    }
+    };
 }
 
-function sequelize_fixture(){
+function mock_model(){
+    return {
+        find: mock_function(),
+        findOrCreate: mock_function(),
+        create: mock_function(),
+        findAndCountAll: mock_function(),
+        findAll: mock_function(),
+        all: mock_function(),
+        count: mock_function(),
+        max: mock_function(),
+        min: mock_function()
+    };
+}
+
+function mock_function(){
     var successCallback;
     var failureCallback;
 
-    var mock = {
+    // Chained result from mocked function
+    var chain = {
         success: function(callback){
             successCallback = callback;
-            return mock;
+            return chain;
         },
+        // Name for error chaining on statics
         failure: function(callback){
             failureCallback = callback;
-            return mock;
+            return chain;
+        },
+        // Name for error chaining on instances
+        error: function(callback){
+            failureCallback = callback;
+            return chain;
         }
     };
 
-    function find(id) {
-        return mock;
+    function mocked() {
+        return chain;
     }
 
-    find.set_success = function(v){
+    function reset(){
+        successCallback = failureCallback = undefined;
+    }
+
+    // Used by test code to emulate a successful db operation
+    mocked.set_success = function(v){
         successCallback(v);
-        successCallback = failureCallback = undefined;
+        reset();
     };
-    find.set_failure = function(e){
+    // Used by test code to emulate a failed db operation
+    mocked.set_failure = function(e){
         failureCallback(e);
-        successCallback = failureCallback = undefined;
+        reset();
     };
-    return find;
+    return mocked;
 }
 
 module.exports = db_fixture;
