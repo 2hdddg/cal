@@ -29,7 +29,8 @@ function subEntitiesToHtml(entities){
 
     var html = "<ul>";
     entities.forEach(function(e){
-        html += "<li>" + subEntityToHtml(e) + "</li>";
+        html += "<li" + classesToAttribute(e) + ">" + 
+            subEntityToHtml(e) + "</li>";
     });
 
     html += "</ul>";
@@ -51,6 +52,7 @@ function titleToh1(o){
     }
 
     // try to find self url
+    // underscore please!
     var selfUrl;
     if (o.links && o.links.length > 0){
         o.links.forEach(function(l){
