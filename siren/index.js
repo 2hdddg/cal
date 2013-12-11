@@ -45,8 +45,36 @@ function classesToAttribute(o){
     return ' class="' + o.class.join(' ') + '"'
 }
 
+function titleToh1(o){
+    if (!o || !o.title || !o.title.length){
+        return '';
+    }
+
+    // try to find self url
+    var selfUrl;
+    if (o.links && o.links.length > 0){
+        o.links.forEach(function(l){
+            if (l.rel && l.rel.length && l.href){
+                l.rel.forEach(function(r){
+                    if (r === 'self'){
+                        selfUrl = l.href;
+                    }
+                })
+            }
+        });
+    }
+
+    if (selfUrl){
+        return '<h1><a href="' + selfUrl + '">' + o.title + '</a></h1>';
+    }
+    else{
+        return '<h1>' + o.title + '</h1>';
+    }
+}
+
 function toHtml(sirenJson){
     var html = "<article" + classesToAttribute(sirenJson) + ">" +
+        titleToh1(sirenJson) +
         propertiesToHtml(sirenJson.properties) +
         subEntitiesToHtml(sirenJson.entities) +
     "</article>";

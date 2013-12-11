@@ -10,11 +10,21 @@ describe('Siren,', function(){
             assert.equal(html, '<article></article>');
         });
 
-        it('should wrap entity title in ht tag', function(){
+        it('should wrap entity title in h1 tag', function(){
             var html = siren.toHtml({
                 title: 'Atitle'
             });
             assert.equal(html, '<article><h1>Atitle</h1></article>');
+        });
+
+        it('should wrap entity title in h1 tag with self link as a tag', function(){
+            var html = siren.toHtml({
+                title: 'Atitle',
+                links: [
+                    { rel: ["self"], href: "ref"}
+                ]
+            });
+            assert.equal(html, '<article><h1><a href="ref">Atitle</a></h1></article>');
         });
 
         it('should set entity class as class on article tag if present', function(){
