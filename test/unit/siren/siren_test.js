@@ -48,14 +48,26 @@ describe('Siren,', function(){
             assert.equal(html, '<article class="aclass anotherclass"></article>');
         });
 
-        it('transforms entities into ul list of sections', function(){
+        it('transforms subentities into ul list of sections', function(){
             var html = siren.toHtml({
                 entities: [{
-                    rel: ['reldefinition'],
                     href: 'uritoself'
                 }]
             });
             assert.equal(html, '<article><ul><li><section></section></li></ul></article>');
+        });
+
+        /*
+        it('transforms subentity rel to a ?', function(){
+            var html = siren.toHtml({
+                entities: [{
+                    rel: ['reldefinition'],
+                }]
+            });
+            assert.equal(html, '<article><ul><li><section></section></li></ul></article>');
         })
+        */
+
+
     });
 }); 

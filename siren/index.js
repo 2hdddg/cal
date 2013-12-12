@@ -1,4 +1,9 @@
 
+
+function propertyToHtml(name, value){
+    return "<dt>" + name + "</dt><dd>" + value + "</dd>";
+}
+
 function propertiesToHtml(properties){
     if (!properties || Object.keys(properties).length === 0){
         return '';
@@ -6,7 +11,7 @@ function propertiesToHtml(properties){
 
     var html = "<dl>";
     for (var p in properties){
-        html += "<dt>" + p + "</dt><dd>" + properties[p] + "</dd>";
+        html += propertyToHtml(p, properties[p]);
     }
     html += "</dl>";
 
@@ -17,7 +22,11 @@ function subEntityToHtml(entity){
     if (!entity || Object.keys(entity).length === 0){
         return '';
     }
-    var html = "<section></section>";
+
+    var html = "<section" + classesToAttribute(entity) + ">" +
+        titleToh1(entity) +
+        propertiesToHtml(entity.properties) +
+    "</section>";
 
     return html;
 }
@@ -51,9 +60,30 @@ function titleToh1(o){
         return '';
     }
 
+    var selfUrl = getSelfUrl(o);
+
+    if (selfUrl){
+        return '<h1><a href="' + selfUrl + '">' + o.title + '</a></h1>';
+    }
+    else{
+        return '<h1>' + o.title + '</h1>';
+    }
+}
+
+function getSelfUrl(o){
     // try to find self url
-    // underscore please!
     var selfUrl;
+
+    // href is used to represent self on subentites expressed
+    // as embedded link
+    if (o.href){
+        return o.href;
+    }
+
+    // Main entity or subentitities expressed as embedded 
+    // representation has self url in links section with
+    // rel set to "self"
+    // underscore please!
     if (o.links && o.links.length > 0){
         o.links.forEach(function(l){
             if (l.rel && l.rel.length && l.href){
@@ -65,13 +95,7 @@ function titleToh1(o){
             }
         });
     }
-
-    if (selfUrl){
-        return '<h1><a href="' + selfUrl + '">' + o.title + '</a></h1>';
-    }
-    else{
-        return '<h1>' + o.title + '</h1>';
-    }
+    return selfUrl;
 }
 
 function toHtml(sirenJson){
