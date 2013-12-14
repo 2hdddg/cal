@@ -123,7 +123,7 @@ function form(a){
             return [href, method];
         },
         inner: function(){
-            //return fields(a.fields);
+            return fields(a.fields);
         }
     });
 }
@@ -137,13 +137,14 @@ function fields(list){
             });
             if (fields){
                 fields +=
-                    tag('input', {
+                    html.tag('input', {
                         attrs: function(){
                             var type = html.attr({ type: 'submit'}, 'type');
                             return [type];
                         }
                     });
             }
+            return fields;
         }
     });
 }

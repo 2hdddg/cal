@@ -55,7 +55,8 @@ describe('Siren,', function(){
                 }]
             });
             assert.equal(html,
-            '<article><section><dl><dt>x</dt><dd>1</dd><dt>y</dt><dd>2</dd></dl></section></article>');
+
+            '<article><section><dl><dt>name</dt><dd>update</dd><dt>title</dt><dd>Update</dd><dt>method</dt><dd>POST</dd><dt>href</dt><dd><a href="posturl">posturl</a></dd><dt>type</dt><dd>encoding</dd></dl><form action="posturl" method="POST"></form></section></article>');
         });
 
     });
