@@ -1,13 +1,14 @@
 
 var html = require('./html');
 
-function entity(e){
-    return html.tag('article', {
+function entity(e, tag){
+    return html.tag(tag, {
         inner: function(){
             var m = meta(e);
             var c = custom(e.properties);
             var a = actions(e.actions);
-            return m + c + a;
+            var s = entities(e.entities);
+            return m + c + a + s;
         },
         show_empty: true
     });
@@ -18,6 +19,7 @@ function meta(e){
         inner: function(){
             var title = property(e, 'title');
             var clazz = property(e, 'class');
+            var rel = property(e, 'rel');
             var href = property(e, 'href', function(v){
                 return html.tag('a', {
                     attrs: function(){
@@ -30,7 +32,7 @@ function meta(e){
                 });
             });
 
-            return title + clazz + href;
+            return title + clazz + rel + href;
         }
     });
 }
@@ -173,6 +175,22 @@ function field(f){
     return input + label;
 }
 
+function entities(list){
+    if (!list || !list.length){
+        return '';
+    }
+
+    var entities = '';
+
+    list.forEach(function(e){
+        entities += entity(e, 'section');
+    })
+
+    return entities;
+}
+
 module.exports = {
-    toHtml: entity
+    toHtml: function(e){
+        return entity(e, 'article');
+    }
 }

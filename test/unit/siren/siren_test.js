@@ -28,7 +28,7 @@ describe('Siren,', function(){
             var html = siren.toHtml({
                 class: ["aclass", "anotherclass"]
             });
-            assert.equal(html, '<article><dl><dt>class</dt><dd>aclass, anotherclass</dd></dl></article>');
+            assert.equal(html, '<article><dl><dt>class</dt><dd>aclass,anotherclass</dd></dl></article>');
         });
 
         it('should put href in dl/dt/dd tag as  a tag', function(){
@@ -64,18 +64,18 @@ describe('Siren,', function(){
             assert.equal(html,
             '<article><section><dl><dt>name</dt><dd>update</dd><dt>title</dt><dd>Update</dd><dt>method</dt><dd>POST</dd><dt>href</dt><dd><a href="posturl">posturl</a></dd><dt>type</dt><dd>encoding</dd></dl><form action="posturl" method="POST"><fieldset><input name="n" type="text" value="v"></input><label for="n">n</label></fieldset><input type="submit"></input></form></section></article>');
         });
-/*
+
         it('should put related entitites in sections', function(){
             var html = siren.toHtml({
-                    entitites: [
+                    entities: [
                         {
-                            class: 
+                            class: 'subentity',
                         }
                     ]
-                }
-            });
-            assert.equal(html, '<article></article>');
+                });
+            console.log(html);
+            assert.equal(html, '<article><section><dl><dt>class</dt><dd>subentity</dd></dl></section></article>');
         });
-*/
+
     });
 }); 
