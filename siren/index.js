@@ -4,17 +4,16 @@ var html = require('./html');
 function entity(e){
     return html.tag('article', {
         inner: function(){
-            var meta = metaProperties(e);
-            //namedProperties(e, ['title', 'class', 'href']);
-            //var properties = properties(e.properties);
-            //var actions = actions(e.actions);
-            return meta;
+            var m = meta(e);
+            var c = custom(e.properties);
+            var a = actions(e.actions);
+            return m + c + a;
         },
         show_empty: true
     });
 }
 
-function metaProperties(e){
+function meta(e){
     return html.tag('dl', {
         inner: function(){
             var title = property(e, 'title');
@@ -22,7 +21,8 @@ function metaProperties(e){
             var href = property(e, 'href', function(v){
                 return html.tag('a', {
                     attrs: function(){
-                        return html.attr({ href: v}, 'href');
+                        var href = html.attr({ href: v}, 'href');
+                        return [href];
                     },
                     inner: function(){
                         return v;
@@ -35,13 +35,14 @@ function metaProperties(e){
     });
 }
 
-function properties(o){
+function custom(o){
     return html.tag('dl', {
         inner: function(){
             var properties = '';
             for (var n in o){
-                properties += property(o, p);
+                properties += property(o, n);
             }
+            return properties;
         }
     });
 }
@@ -70,6 +71,10 @@ function property(e, name, format){
 }
 
 function actions(list){
+    if (!list || !list.length){
+        return '';
+    }
+
     var actions = '';
 
     list.forEach(function(a){
@@ -80,19 +85,45 @@ function actions(list){
 }
 
 function action(a){
-    return
-        namedProperties(['title', 'name', 'method', 'href', 'type']) +
-        form(a)
+    var name = property(a, 'name');
+    var title = property(a, 'title');
+    var method = property(a, 'method');
+    var href = property(a, 'href', function(v){
+        return html.tag('a', {
+            attrs: function(){
+                var href = html.attr({ href: v}, 'href');
+                return [href];
+            },
+            inner: function(){
+                return v;
+            }
+        });
+    });
+    var type = property(a, 'type');
+
+    var properties = html.tag('dl', {
+        inner: function(){
+            return name + title + method + href + type;
+        }
+    });
+
+    return html.tag('section', {
+        inner: function(){
+            return properties + form(a);
+        }
+    });
 }
 
 function form(a){
     return html.tag('form', {
         attrs: function(){
-            attributes += html.attr(a, 'href', 'action');
-            attributes += html.attr(a, 'method', 'method');
+            var href = html.attr(a, 'href', 'action');
+            var method = html.attr(a, 'method', 'method');
+
+            return [href, method];
         },
         inner: function(){
-            return fields(a.fields);
+            //return fields(a.fields);
         }
     });
 }
@@ -108,7 +139,8 @@ function fields(list){
                 fields +=
                     tag('input', {
                         attrs: function(){
-                            return html.attr({ type: 'submit'}, 'type');
+                            var type = html.attr({ type: 'submit'}, 'type');
+                            return [type];
                         }
                     });
             }
@@ -120,15 +152,15 @@ function field(f){
     return
         html.tag('input', {
             attrs: function(){
-                return
-                    html.attr(f, 'name') +
-                    html.attr(f, 'type') +
-                    html.attr(f, 'value');
+                return [
+                    html.attr(f, 'name'),
+                    html.attr(f, 'type'),
+                    html.attr(f, 'value')];
             }
         }) +
         html.tag('label', {
             attrs: function(){
-                html.attr(f, 'name', 'for');
+                return [html.attr(f, 'name', 'for')];
             }
         });
 }

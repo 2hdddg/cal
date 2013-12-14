@@ -17,8 +17,11 @@ function tag(name, options){
         return '';
     }
 
-    if (attrs){
-        attrs = ' ' + attrs;
+    if (attrs && attrs.length){
+        attrs = ' ' + attrs.join(' ');
+    }
+    else{
+        attrs = '';
     }
 
     return '<' +  name + attrs + '>' + inner + '</' + name + '>';

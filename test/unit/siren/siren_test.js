@@ -40,26 +40,23 @@ describe('Siren,', function(){
             });
             assert.equal(html, '<article><dl><dt>x</dt><dd>1</dd><dt>y</dt><dd>2</dd></dl></article>');
         });
-/*
-        it('transforms subentities into ul list of sections', function(){
+
+        it('should put action in section with dl/dt/dd and form', function(){
             var html = siren.toHtml({
-                entities: [{
-                    href: 'uritoself'
+                actions:[{
+                    name: 'update',
+                    title: 'Update',
+                    method: 'POST',
+                    href: 'posturl',
+                    type: 'encoding',
+                    fields: [
+                        { name: 'n', type: 'text', value: 'v'}
+                    ]
                 }]
             });
-            assert.equal(html, '<article><ul><li><section></section></li></ul></article>');
+            assert.equal(html,
+            '<article><section><dl><dt>x</dt><dd>1</dd><dt>y</dt><dd>2</dd></dl></section></article>');
         });
-*/
-        /*
-        it('transforms subentity rel to a ?', function(){
-            var html = siren.toHtml({
-                entities: [{
-                    rel: ['reldefinition'],
-                }]
-            });
-            assert.equal(html, '<article><ul><li><section></section></li></ul></article>');
-        })
-        */
 
     });
 }); 
