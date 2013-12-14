@@ -55,8 +55,7 @@ describe('Siren,', function(){
                 }]
             });
             assert.equal(html,
-
-            '<article><section><dl><dt>name</dt><dd>update</dd><dt>title</dt><dd>Update</dd><dt>method</dt><dd>POST</dd><dt>href</dt><dd><a href="posturl">posturl</a></dd><dt>type</dt><dd>encoding</dd></dl><form action="posturl" method="POST"></form></section></article>');
+            '<article><section><dl><dt>name</dt><dd>update</dd><dt>title</dt><dd>Update</dd><dt>method</dt><dd>POST</dd><dt>href</dt><dd><a href="posturl">posturl</a></dd><dt>type</dt><dd>encoding</dd></dl><form action="posturl" method="POST"><fieldset><input name="n" type="text" value="v"></input><label for="n">n</label></fieldset><input type="submit"></input></form></section></article>');
         });
 
     });
