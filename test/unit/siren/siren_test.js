@@ -31,6 +31,15 @@ describe('Siren,', function(){
             assert.equal(html, '<article><dl><dt>href</dt><dd><a href="http://x.y">http://x.y</a></dd></dl></article>');
         });
 
+        it('should put custom properties in dl/dt/dd tag as  a tag', function(){
+            var html = siren.toHtml({
+                properties:{
+                    x: 1,
+                    y: 2
+                }
+            });
+            assert.equal(html, '<article><dl><dt>x</dt><dd>1</dd><dt>y</dt><dd>2</dd></dl></article>');
+        });
 /*
         it('transforms subentities into ul list of sections', function(){
             var html = siren.toHtml({
