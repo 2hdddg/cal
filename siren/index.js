@@ -8,7 +8,8 @@ function entity(e, tag){
             var c = custom(e.properties);
             var a = actions(e.actions);
             var s = entities(e.entities);
-            return m + c + a + s;
+            var l = links(e.links);
+            return m + c + a + s + l;
         },
         show_empty: true
     });
@@ -23,15 +24,13 @@ function meta(e){
             var href = property(e, 'href', function(v){
                 return html.tag('a', {
                     attrs: function(){
-                        var href = html.attr({ href: v}, 'href');
-                        return [href];
+                        return [html.attr({ href: v}, 'href')];
                     },
                     inner: function(){
                         return v;
                     }
                 });
             });
-
             return title + clazz + rel + href;
         }
     });
@@ -187,6 +186,56 @@ function entities(list){
     })
 
     return entities;
+}
+
+function links(list){
+    if (!list || !list.length){
+        return '';
+    }
+
+    var links = '';
+
+    list.forEach(function(l){
+        links += link(l);
+    });
+
+    var dl = html.tag('dl', {
+        inner: function(){
+            return links;
+        }
+    });
+
+    return html.tag('section', {
+        inner: function() {
+            return dl;
+        }
+    });
+}
+
+function link(l){
+    var relations = '';
+    l.rel.forEach(function(r){
+        var dt = html.tag('dt', {
+            inner: function(){
+                return r;
+            }
+        });
+        var dd = html.tag('dd', {
+            inner: function(){
+                return html.tag('a', {
+                    attrs: function(){
+                        var href = html.attr(l, 'href');
+                        return [href];
+                    },
+                    inner: function(){
+                        return l.href;
+                    }
+                });
+            }
+        });
+        relations += dt + dd;
+    });
+    return relations;
 }
 
 module.exports = {

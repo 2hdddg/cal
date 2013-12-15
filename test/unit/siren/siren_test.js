@@ -73,9 +73,31 @@ describe('Siren,', function(){
                         }
                     ]
                 });
-            console.log(html);
             assert.equal(html, '<article><section><dl><dt>class</dt><dd>subentity</dd></dl></section></article>');
         });
 
+        it('should put link in sections with dl/dt/dd', function(){
+            var html = siren.toHtml({
+                    links: [
+                        {
+                            rel: ['link'],
+                            href: 'x'
+                        }
+                    ]
+                });
+            assert.equal(html, '<article><section><dl><dt>link</dt><dd><a href="x">x</a></dd></dl></section></article>');
+        });
+
+        it('should duplicate link with more than one rel', function(){
+            var html = siren.toHtml({
+                    links: [
+                        {
+                            rel: ['link1', 'link2'],
+                            href: 'x'
+                        }
+                    ]
+                });
+            assert.equal(html, '<article><section><dl><dt>link1</dt><dd><a href="x">x</a></dd><dt>link2</dt><dd><a href="x">x</a></dd></dl></section></article>');
+        });
     });
 }); 
