@@ -31,7 +31,7 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-env');
 
     grunt.registerTask('test', ['env:dev', 'mochacli']);
-    grunt.registerTask('default', ['env:dev','express']);
+    grunt.registerTask('server', ['env:dev','express']);
 
     // sudo -u postgres psql
 };

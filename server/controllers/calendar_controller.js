@@ -23,7 +23,7 @@ module.exports = function(db){
                 response(res, to_JSON(calendar));
             },
             function(error){
-                res.write(error);
+                res.write(error.toString());
                 res.end();
             });
     }
