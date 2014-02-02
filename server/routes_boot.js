@@ -1,9 +1,10 @@
-module.exports = function(express, app, db){
-    // Controllers are initialized with db
-    var calendar = require('./controllers/calendar_controller')(db);
+module.exports = function(server, db){
+    var fs = require('fs');
 
-    // Setup express routes for:
-    //   Calendar
-    app.get('/calendar/:id', calendar.get);
-    app.post('/calendar/:id', calendar.create);
+    // register all controllers
+    var controllers = fs.readdirSync(__dirname + '/controllers/');
+    controllers.forEach(function(controllername){
+        var controller = require(__dirname + '/controllers/' + controllername);
+        controller(server, db);
+    });
 };

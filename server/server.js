@@ -1,12 +1,12 @@
-var express = require('express'),
-    app = express(),
+var restify = require('restify'),
+    server = restify.createServer(),
     db = require('./db');
 
 // Bootstrapping
-require('./express_boot')(app);
-require('./routes_boot')(express, app, db);
+require('./routes_boot')(server, db);
 
 var port = process.env.PORT || 6666;
 
-app.listen(port);
-console.log("Server listening on port " + port);
+server.listen(port, function(){
+    console.log('%s listening at %s', server.name, server.url);
+});

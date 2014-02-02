@@ -1,26 +1,15 @@
-module.exports = function(db){
+module.exports = function(server, db){
     var query = require('../queries/calendar_query')(db),
         to_JSON = require('../serializers/calendar_serializer').to_JSON,
         siren = require('../../siren');
 
-    function response(res, sirenJson){
-        res.format({
-            html: function(){
-                res.write(siren.toHtml(sirenJson));
-            },
-            json: function(){
-                res.write(JSON.stringify(sirenJson));
-            }
-        });
-        res.end();
-    }
-
-    function get(req, res){
+    function get(req, res, next){
         var id = req.params.id;
 
         query.get_by_id(id,
             function(calendar){
-                response(res, to_JSON(calendar));
+                res.send(to_JSON(calendar));
+                next();
             },
             function(error){
                 res.write(error.toString());
@@ -28,12 +17,11 @@ module.exports = function(db){
             });
     }
 
-    function create(req, res){
+    function create(req, res, next){
         res.end();
     }
 
-    return {
-        get: get,
-        create: create,
-    };
+    // Register myself
+    server.get('/calendar/:id', get);
+    server.post('/calendar/:id', create);
 };
